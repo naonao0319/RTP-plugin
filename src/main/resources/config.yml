@@ -1,0 +1,32 @@
+# RTPの設定ファイル
+
+# テレポートの範囲設定 (ブロック)
+radius:
+  max: 5000
+  min: 500
+
+# クールタイム設定 (秒)
+# 一度使った後、次に使えるまでの時間
+cooldown: 60
+
+# [NEW] テレポート待機時間 (秒)
+# コマンド入力後、この時間は動いてはいけません
+warmup: 5
+
+# [NEW] RTPを許可するワールドのリスト
+# ここに書かれていないワールドでは使えません
+allowed-worlds:
+  - "world"
+  - "world_nether"
+  - "world_the_end"
+
+# メッセージ設定
+messages:
+  prefix: "&7[&bRTP&7] "
+  cooldown: "&cまだRTPを使えません！ 残り: %time%秒"
+  warmup-start: "&eテレポート準備中... &c%time%秒間&e動かないでください！"
+  warmup-cancel: "&c動いたためテレポートをキャンセルしました。"
+  teleporting: "&a安全な場所が見つかりました！テレポートします..."
+  success: "&aランダムテレポートしました！"
+  not-safe: "&c安全な場所が見つかりませんでした。もう一度試してください。"
+  invalid-world: "&cこのワールドではRTPを使用できません。"

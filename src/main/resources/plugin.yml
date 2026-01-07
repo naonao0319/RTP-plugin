@@ -1,0 +1,24 @@
+name: RTP-nao
+version: '1.0'
+main: your.domain.minecraft.rtpnao.RtpNao
+api-version: '1.21'
+authors: [naonaoserver]
+description: A simple and optimized random teleport plugin for Paper.
+commands:
+  rtp:
+    description: Randomly teleport to a safe location.
+    usage: /rtp [reload]
+    permission: rtpnao.use
+permissions:
+  rtpnao.use:
+    description: Allows usage of RTP command.
+    default: true
+  rtpnao.bypass.cooldown:
+    description: Bypass RTP cooldown.
+    default: op
+  rtpnao.bypass.warmup:
+    description: Bypass RTP warmup delay.
+    default: op
+  rtpnao.reload:
+    description: Reload the configuration.
+    default: op
