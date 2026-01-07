@@ -1,24 +1,24 @@
 # RTP-nao
 
-一个为 Paper 优化的简单随机传送插件。
+Paper向けに最適化されたシンプルなランダムテレポートプラグインです。 / A simple and optimized random teleport plugin for Paper.
 
-## 功能
-- **随机传送**: 使用 `/rtp` 随机传送到安全地点。
-- **安全检查**: 自动避开水、岩浆等危险方块。
-- **传送延迟 (Warmup)**: 传送前需要保持不动。
-- **冷却时间 (Cooldown)**: 限制玩家连续使用的频率。
-- **多世界支持**: 可在配置文件中设置允许使用 RTP 的世界。
-- **权限管理**: 详细的权限设置。
+## 機能 / Features
+- **ランダムテレポート / Random Teleport**: `/rtp` で安全な場所へランダムにテレポートします。 / Teleport to a random safe location.
+- **安全チェック / Safety Check**: 水や溶岩などの危険な場所を自動的に避けます。 / Automatically avoids dangerous blocks like water and lava.
+- **待機時間 / Warmup delay**: テレポート前に一定時間動かずに待機する必要があります。 / Requires players to stay still before teleporting.
+- **クールタイム / Cooldown**: 連続使用を制限します。 / Prevents frequent use of the command.
+- **マルチワールド対応 / Multi-world support**: 設定ファイルで許可するワールドを指定できます。 / Specify allowed worlds in the config.
+- **権限管理 / Permissions**: 詳細な権限設定が可能です。 / Detailed permission nodes.
 
-## 命令
-- `/rtp`: 随机传送。
-- `/rtp reload`: 重载配置文件 (需要 `rtpnao.reload` 权限)。
+## コマンド / Commands
+- `/rtp`: ランダムテレポートを実行します。 / Execute random teleport.
+- `/rtp reload`: 設定ファイルを再読み込みします。 / Reload the configuration (Requires `rtpnao.reload`).
 
-## 权限
-- `rtpnao.use`: 允许使用 `/rtp` 命令（默认：所有人）。
-- `rtpnao.bypass.cooldown`: 跳过冷却时间（默认：OP）。
-- `rtpnao.bypass.warmup`: 跳过传送延迟（默认：OP）。
-- `rtpnao.reload`: 允许重载配置文件（默认：OP）。
+## 権限 / Permissions
+- `rtpnao.use`: `/rtp` の使用を許可します (デフォルト: 全員)。 / Allows usage of `/rtp` (Default: everyone).
+- `rtpnao.bypass.cooldown`: クールタイムを無視します (デフォルト: OP)。 / Bypass cooldown (Default: OP).
+- `rtpnao.bypass.warmup`: 待機時間を無視します (デフォルト: OP)。 / Bypass warmup delay (Default: OP).
+- `rtpnao.reload`: 設定のリロードを許可します (デフォルト: OP)。 / Allows reloading the config (Default: OP).
 
-## 配置文件 (config.yml)
-您可以自定义传送范围、延迟时间、冷却时间、允许的世界列表以及所有的提示消息。
+## 設定ファイル / Configuration (config.yml)
+テレポート範囲、待機時間、クールタイム、許可ワールド、およびすべてのメッセージをカスタマイズできます。 / You can customize the teleport radius, delay, cooldown, allowed worlds, and all messages.
