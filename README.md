@@ -1,24 +1,50 @@
 # RTP-nao
 
-Paper向けに最適化されたシンプルなランダムテレポートプラグインです。 / A simple and optimized random teleport plugin for Paper.
+![Version](https://img.shields.io/badge/version-1.0-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Paper-green.svg)
+![Java](https://img.shields.io/badge/java-21+-orange.svg)
 
-## 機能 / Features
-- **ランダムテレポート / Random Teleport**: `/rtp` で安全な場所へランダムにテレポートします。 / Teleport to a random safe location.
-- **安全チェック / Safety Check**: 水や溶岩などの危険な場所を自動的に避けます。 / Automatically avoids dangerous blocks like water and lava.
-- **待機時間 / Warmup delay**: テレポート前に一定時間動かずに待機する必要があります。 / Requires players to stay still before teleporting.
-- **クールタイム / Cooldown**: 連続使用を制限します。 / Prevents frequent use of the command.
-- **マルチワールド対応 / Multi-world support**: 設定ファイルで許可するワールドを指定できます。 / Specify allowed worlds in the config.
-- **権限管理 / Permissions**: 詳細な権限設定が可能です。 / Detailed permission nodes.
+Paper向けに最適化された、シンプルで高性能なランダムテレポートプラグインです。
+A simple and optimized random teleport plugin for Paper.
 
-## コマンド / Commands
-- `/rtp`: ランダムテレポートを実行します。 / Execute random teleport.
-- `/rtp reload`: 設定ファイルを再読み込みします。 / Reload the configuration (Requires `rtpnao.reload`).
+---
 
-## 権限 / Permissions
-- `rtpnao.use`: `/rtp` の使用を許可します (デフォルト: 全員)。 / Allows usage of `/rtp` (Default: everyone).
-- `rtpnao.bypass.cooldown`: クールタイムを無視します (デフォルト: OP)。 / Bypass cooldown (Default: OP).
-- `rtpnao.bypass.warmup`: 待機時間を無視します (デフォルト: OP)。 / Bypass warmup delay (Default: OP).
-- `rtpnao.reload`: 設定のリロードを許可します (デフォルト: OP)。 / Allows reloading the config (Default: OP).
+## 📖 機能 / Features
 
-## 設定ファイル / Configuration (config.yml)
-テレポート範囲、待機時間、クールタイム、許可ワールド、およびすべてのメッセージをカスタマイズできます。 / You can customize the teleport radius, delay, cooldown, allowed worlds, and all messages.
+- **🚀 ランダムテレポート / Random Teleport**
+  - 安全な場所へ瞬時にテレポート。 / Teleport to a random safe location.
+- **🛡️ 安全チェック / Safety Check**
+  - 水や溶岩などの危険な場所を自動的に回避。 / Automatically avoids dangerous blocks like water and lava.
+- **⏳ 待機時間 / Warmup delay**
+  - テレポート前の移動制限。 / Requires players to stay still before teleporting.
+- **💤 クールタイム / Cooldown**
+  - 連続使用の制限。 / Prevents frequent use of the command.
+- **🌍 マルチワールド対応 / Multi-world support**
+  - 許可するワールドを自由に変更可能。 / Specify allowed worlds in the config.
+
+## 💻 コマンド / Commands
+
+| コマンド / Command | 説明 / Description | 権限 / Permission |
+|:---|:---|:---|
+| `/rtp` | ランダムテレポートを実行 / Execute RTP | `rtpnao.use` |
+| `/rtp reload` | 設定を再読み込み / Reload config | `rtpnao.reload` |
+
+## 🔑 権限 / Permissions
+
+| 権限 / Permission | 説明 / Description | デフォルト / Default |
+|:---|:---|:---|
+| `rtpnao.use` | `/rtp` の使用を許可 | 全員 / Everyone |
+| `rtpnao.reload` | 設定のリロードを許可 | OP |
+| `rtpnao.bypass.cooldown` | クールタイムを無視 | OP |
+| `rtpnao.bypass.warmup` | 待機時間を無視 | OP |
+
+## ⚙️ 設定 / Configuration (config.yml)
+
+```yaml
+# テレポートの範囲設定 (radius)
+# 待機時間 (warmup)
+# クールタイム (cooldown)
+# 許可ワールド (allowed-worlds)
+# すべてのメッセージ (messages)
+```
+メッセージも含め、すべての項目を `config.yml` から自由にカスタマイズ可能です。 / All settings and messages can be customized via `config.yml`.
