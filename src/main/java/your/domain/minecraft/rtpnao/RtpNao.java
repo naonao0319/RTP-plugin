@@ -30,7 +30,6 @@ import java.util.concurrent.CompletableFuture;
 
 public final class RtpNao extends JavaPlugin implements CommandExecutor, Listener, TabCompleter {
 
-    private final Random random = new Random();
     // 最後にテレポートした時間 (Cooldown用)
     private final Map<UUID, Long> cooldowns = new HashMap<>();
     // 待機中のタスク (Warmup用)
@@ -116,8 +115,9 @@ public final class RtpNao extends JavaPlugin implements CommandExecutor, Listene
         // === RTPロジック開始 ===
         int warmupSeconds = getConfig().getInt("warmup");
 
-        // 裏で計算を開始 (非同期)
-        CompletableFuture<Location> searchFuture = CompletableFuture.supplyAsync(() -> findSafeLocation(player.getWorld()));
+        // 裏で計算を開始 (非同期・再帰呼び出し)
+        // 20回まで試行
+        CompletableFuture<Location> searchFuture = findSafeLocationAsync(player.getWorld(), 20);
 
         // 権限持ち または 待機時間0 の場合は即時実行
         if (player.hasPermission("rtpnao.bypass.warmup") || warmupSeconds <= 0) {
@@ -229,31 +229,49 @@ public final class RtpNao extends JavaPlugin implements CommandExecutor, Listene
         if (task != null) task.cancel();
     }
 
-    // --- 安全な場所の検索 (非同期対応) ---
-    private Location findSafeLocation(World world) {
+    // --- 安全な場所の検索 (非同期対応・修正版) ---
+    private CompletableFuture<Location> findSafeLocationAsync(World world, int attempts) {
+        if (attempts <= 0) {
+            return CompletableFuture.completedFuture(null);
+        }
+
         int maxRadius = getConfig().getInt("radius.max", 5000);
         int minRadius = getConfig().getInt("radius.min", 500);
 
-        // 15回試行
-        for (int i = 0; i < 15; i++) {
-            int x = generateRandomCoord(maxRadius, minRadius);
-            int z = generateRandomCoord(maxRadius, minRadius);
+        // 座標生成 (ThreadLocalRandomを使用)
+        int x = generateRandomCoord(maxRadius, minRadius);
+        int z = generateRandomCoord(maxRadius, minRadius);
 
-            // 座標計算 (Paper環境ではgetHighestBlockYAtは比較的安全)
+        // チャンクを非同期でロードしてから、安全確認を行う
+        // Paper APIの getChunkAtAsync は完了時にメインスレッドに戻してくれる場合が多いが、
+        // 念のためブロック操作は安全に行う必要がある。
+        return world.getChunkAtAsync(x >> 4, z >> 4).thenCompose(chunk -> {
+            // ブロック情報はメインスレッドで取得する必要がある
+            // getChunkAtAsyncの完了コールバックはメインスレッドで実行される
             int y = world.getHighestBlockYAt(x, z);
             Block block = world.getBlockAt(x, y - 1, z);
 
             if (isSafe(block.getType())) {
-                // 中心にテレポート (+0.5)
-                return new Location(world, x + 0.5, y + 1, z + 0.5);
+                return CompletableFuture.completedFuture(new Location(world, x + 0.5, y + 1, z + 0.5));
+            } else {
+                // 失敗したら再帰呼び出し (試行回数を減らす)
+                return findSafeLocationAsync(world, attempts - 1);
             }
-        }
-        return null;
+        });
     }
 
     private int generateRandomCoord(int max, int min) {
-        int coord = random.nextInt(max * 2) - max;
-        if (Math.abs(coord) < min) coord = (coord < 0) ? -min : min;
+        // 範囲チェック
+        if (min >= max) min = 0;
+        
+        // min ～ max の範囲でランダムな値を生成
+        int range = max - min;
+        int coord = java.util.concurrent.ThreadLocalRandom.current().nextInt(range + 1) + min;
+        
+        // 50%の確率で負の値にする (全方位に対応)
+        if (java.util.concurrent.ThreadLocalRandom.current().nextBoolean()) {
+            coord = -coord;
+        }
         return coord;
     }
 
